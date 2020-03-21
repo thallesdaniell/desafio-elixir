@@ -11,7 +11,7 @@ defmodule Desafio do
       # Start the Ecto repository
       supervisor(Desafio.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Desafio.Endpoint, []),
+      supervisor(Desafio.Endpoint, [])
       # Start your own worker by calling: Desafio.Worker.start_link(arg1, arg2, arg3)
       # worker(Desafio.Worker, [arg1, arg2, arg3]),
     ]
