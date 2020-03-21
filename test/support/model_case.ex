@@ -14,22 +14,24 @@ defmodule Desafio.ModelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.{Adapters.SQL.Sandbox, Changeset}
+
   using do
     quote do
       alias Desafio.Repo
 
       import Ecto
-      import Ecto.Changeset
+      import Changeset
       import Ecto.Query
       import Desafio.ModelCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Desafio.Repo)
+    :ok = Sandbox.checkout(Desafio.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Desafio.Repo, {:shared, self()})
+      Sandbox.mode(Desafio.Repo, {:shared, self()})
     end
 
     :ok
@@ -59,7 +61,7 @@ defmodule Desafio.ModelCase do
   """
   def errors_on(struct, data) do
     struct.__struct__.changeset(struct, data)
-    |> Ecto.Changeset.traverse_errors(&Desafio.ErrorHelpers.translate_error/1)
+    |> Changeset.traverse_errors(&Desafio.ErrorHelpers.translate_error/1)
     |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
   end
 end

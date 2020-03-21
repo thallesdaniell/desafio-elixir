@@ -15,6 +15,8 @@ defmodule Desafio.ChannelCase do
 
   use ExUnit.CaseTemplate
 
+  alias Ecto.Adapters.SQL.Sandbox
+
   using do
     quote do
       # Import conveniences for testing with channels
@@ -31,10 +33,10 @@ defmodule Desafio.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Desafio.Repo)
+    :ok = Sandbox.checkout(Desafio.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Desafio.Repo, {:shared, self()})
+      Sandbox.mode(Desafio.Repo, {:shared, self()})
     end
 
     :ok
